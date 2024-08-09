@@ -1,14 +1,24 @@
 const rps = ["rock", "paper", "scissor"];
-let playerScore = 0;
-let computerScore = 0;
+const userScore = document.querySelector("#userScore");
+const cpuScore = document.querySelector("#cpuScore");
 const para = document.querySelector(".para");
 const cpuDrew = document.querySelector(".cpuDraws");
 const userDraws = document.querySelector(".userDraws");
+const userId = document.querySelector("#userID");
+const cpuId = document.querySelector("#cpuID");
+let playerScore = 0;
+let computerScore = 0;
 
 const videoPaths = {
   rock: "vid/rock.mp4",
   paper: "vid/paper.mp4",
   scissor: "vid/scissor.mp4",
+};
+
+const imagePaths = {
+  rock: "images/rock.png",
+  paper: "images/paper.png",
+  scissor: "images/scissor.png",
 };
 
 function getComputerChoice() {
@@ -20,6 +30,8 @@ function playRound(humanChoice, computerChoice) {
 
   videoPlayer.src = videoPaths[computerChoice];
   videoPlayer.style.display = "block";
+
+  userId.src = imagePaths[humanChoice];
 
   videoPlayer.addEventListener("ended", () => {
     if (humanChoice == "paper" && computerChoice == "rock") {
@@ -38,10 +50,18 @@ function playRound(humanChoice, computerChoice) {
         "You lose! " + computerChoice + " beats " + humanChoice;
       computerScore += 1;
     }
-    cpuDrew.textContent = `CPU: ${computerChoice}`;
+
+    userScore.textContent = playerScore;
+    cpuScore.textContent = computerScore;
+
+    if (playerScore == 5) {
+      document.querySelector(".sample").textContent = "You win!";
+    } else if (computerScore == 5) {
+      document.querySelector(".sample").textContent = "You lose!";
+    }
   });
 
-  userDraws.textContent = `USER: ${humanChoice}`;
+  cpuId.src = imagePaths[computerChoice];
 }
 
 // function playGame() {
@@ -59,8 +79,9 @@ function playRound(humanChoice, computerChoice) {
 let playerOption = document.querySelector("#playerOption");
 
 playerOption.addEventListener("click", (event) => {
+  para.textContent = "";
+
   let target = event.target;
-  let user;
   switch (target.id) {
     case "rock":
       user = rps[0];
@@ -75,6 +96,3 @@ playerOption.addEventListener("click", (event) => {
 
   playRound(user, getComputerChoice());
 });
-
-console.log(`USER: ${playerScore}`);
-console.log(`CPU: ${computerScore}`);

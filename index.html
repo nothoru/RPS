@@ -21,21 +21,32 @@
 
       <video id="videoPlayer" autoplay></video>
 
-  
-      <p class="userDraws">USER: ?</p>
-      <p class="cpuDraws">CPU: ?</p>
+      <div class="choices">
+
+          <div>
+            <img id='userID'>
+          <p class="userDraws">USER <span id="userScore"></span></p>
+          </div>
+
+          <div>
+            <img id="cpuID">
+            <p class="cpuDraws">CPU  <span id="cpuScore"></span></p>
+          </div>
+      </div>
     
 
     <ul id="playerOption">
-      <button ><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-rock.png" id="rock" width="150px" height="150px"></button>
-      <button ><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-paper.png" id="paper" width="150px" height="150px"></button>
-      <button><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-scissor.png" id="scissor" width="150px" height="150px"></button>
+      <button id="rock"><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-rock.png" id="rock" width="150px" height="150px"></button>
+      <button  id="paper"><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-paper.png" id="paper" width="150px" height="150px"></button>
+      <button  id="scissor"><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-scissor.png" id="scissor" width="150px" height="150px"></button>
 
     </ul>
 
    
 
     </div>
+
+    <p class="sample"></p>
 
 
     <script src="index.js"></script>
