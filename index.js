@@ -30,51 +30,44 @@ function playRound(humanChoice, computerChoice) {
 
   videoPlayer.src = videoPaths[computerChoice];
   videoPlayer.style.display = "block";
+  cpuId.src = "images/random.png";
 
   userId.src = imagePaths[humanChoice];
 
-  videoPlayer.addEventListener("ended", () => {
-    if (humanChoice == "paper" && computerChoice == "rock") {
-      para.textContent = "You won! Paper beats Rock";
-      playerScore += 1;
-    } else if (humanChoice == "rock" && computerChoice == "scissor") {
-      para.textContent = "You won! Rock beats Scissor";
-      playerScore += 1;
-    } else if (humanChoice == "scissor" && computerChoice == "paper") {
-      para.textContent = "You won! Scissor beats Paper";
-      playerScore += 1;
-    } else if (humanChoice == computerChoice) {
-      para.textContent = `Its a tie`;
-    } else {
-      para.textContent =
-        "You lose! " + computerChoice + " beats " + humanChoice;
-      computerScore += 1;
-    }
+  videoPlayer.addEventListener("timeupdate", () => {
+    if (videoPlayer.currentTime >= 9 && videoPlayer.currentTime < 9.5) {
+      if (humanChoice == "paper" && computerChoice == "rock") {
+        para.textContent = "You won! Paper beats Rock";
+        playerScore += 1;
+      } else if (humanChoice == "rock" && computerChoice == "scissor") {
+        para.textContent = "You won! Rock beats Scissor";
+        playerScore += 1;
+      } else if (humanChoice == "scissor" && computerChoice == "paper") {
+        para.textContent = "You won! Scissor beats Paper";
+        playerScore += 1;
+      } else if (humanChoice == computerChoice) {
+        para.textContent = `Its a tie`;
+      } else {
+        para.textContent =
+          "You lose! " + computerChoice + " beats " + humanChoice;
+        computerScore += 1;
+      }
 
-    userScore.textContent = playerScore;
-    cpuScore.textContent = computerScore;
+      userScore.textContent = playerScore;
+      cpuScore.textContent = computerScore;
 
-    if (playerScore == 5) {
-      document.querySelector(".sample").textContent = "You win!";
-    } else if (computerScore == 5) {
-      document.querySelector(".sample").textContent = "You lose!";
+      if (playerScore == 5) {
+        document.querySelector(".sample").textContent = "You win!";
+      } else if (computerScore == 5) {
+        document.querySelector(".sample").textContent = "You lose!";
+      }
+
+      cpuId.src = imagePaths[computerChoice];
+
+      videoPlayer.removeEventListener("timeupdate", arguments.callee);
     }
   });
-
-  cpuId.src = imagePaths[computerChoice];
 }
-
-// function playGame() {
-//   let gameOn = true;
-//   do {
-//     let cpu = getComputerChoice();
-//     playRound(user, cpu);
-
-//     if (playerScore == 5 || computerScore == 5) {
-//       gameOn = false;
-//     }
-//   } while (gameOn);
-//
 
 let playerOption = document.querySelector("#playerOption");
 
