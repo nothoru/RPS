@@ -1,13 +1,15 @@
 const rps = ["rock", "paper", "scissor"];
 const userScore = document.querySelector("#userScore");
 const cpuScore = document.querySelector("#cpuScore");
-const para = document.querySelector(".para");
+let para = document.createElement("p");
 const cpuDrew = document.querySelector(".cpuDraws");
 const userDraws = document.querySelector(".userDraws");
 const userId = document.querySelector("#userID");
 const cpuId = document.querySelector("#cpuID");
 let playerScore = 0;
 let computerScore = 0;
+let isVideoPlaying = false;
+const container = document.querySelector(".container");
 
 const videoPaths = {
   rock: "vid/rock.mp4",
@@ -34,37 +36,44 @@ function playRound(humanChoice, computerChoice) {
 
   userId.src = imagePaths[humanChoice];
 
+  if (humanChoice == "paper" && computerChoice == "rock") {
+    para.textContent = "You won! Paper beats Rock";
+    playerScore += 1;
+  } else if (humanChoice == "rock" && computerChoice == "scissor") {
+    para.textContent = "You won! Rock beats Scissor";
+    playerScore += 1;
+  } else if (humanChoice == "scissor" && computerChoice == "paper") {
+    para.textContent = "You won! Scissor beats Paper";
+    playerScore += 1;
+  } else if (humanChoice == computerChoice) {
+    para.textContent = `Its a tie`;
+  } else {
+    para.textContent = "You lose! " + computerChoice + " beats " + humanChoice;
+    computerScore += 1;
+  }
+
+  if (playerScore == 5) {
+    document.querySelector(".sample").textContent = "You win!";
+    playerScore = 0;
+    computerScore = 0;
+  } else if (computerScore == 5) {
+    document.querySelector(".sample").textContent = "You lose!";
+    playerScore = 0;
+    computerScore = 0;
+  }
+
   videoPlayer.addEventListener("timeupdate", () => {
     if (videoPlayer.currentTime >= 9 && videoPlayer.currentTime < 9.5) {
-      if (humanChoice == "paper" && computerChoice == "rock") {
-        para.textContent = "You won! Paper beats Rock";
-        playerScore += 1;
-      } else if (humanChoice == "rock" && computerChoice == "scissor") {
-        para.textContent = "You won! Rock beats Scissor";
-        playerScore += 1;
-      } else if (humanChoice == "scissor" && computerChoice == "paper") {
-        para.textContent = "You won! Scissor beats Paper";
-        playerScore += 1;
-      } else if (humanChoice == computerChoice) {
-        para.textContent = `Its a tie`;
-      } else {
-        para.textContent =
-          "You lose! " + computerChoice + " beats " + humanChoice;
-        computerScore += 1;
-      }
-
-      userScore.textContent = playerScore;
-      cpuScore.textContent = computerScore;
-
-      if (playerScore == 5) {
-        document.querySelector(".sample").textContent = "You win!";
-      } else if (computerScore == 5) {
-        document.querySelector(".sample").textContent = "You lose!";
-      }
-
       cpuId.src = imagePaths[computerChoice];
 
+      container.insertBefore(para, container.firstChild);
+
       videoPlayer.removeEventListener("timeupdate", arguments.callee);
+
+      isVideoPlaying = false;
+
+      cpuScore.textContent = computerScore;
+      userScore.textContent = playerScore;
     }
   });
 }
@@ -72,7 +81,9 @@ function playRound(humanChoice, computerChoice) {
 let playerOption = document.querySelector("#playerOption");
 
 playerOption.addEventListener("click", (event) => {
-  para.textContent = "";
+  if (isVideoPlaying) return;
+
+  isVideoPlaying = true;
 
   let target = event.target;
   switch (target.id) {
@@ -88,4 +99,6 @@ playerOption.addEventListener("click", (event) => {
   }
 
   playRound(user, getComputerChoice());
+
+  container.removeChild(para);
 });
