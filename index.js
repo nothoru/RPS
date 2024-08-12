@@ -10,7 +10,6 @@ let playerScore = 0;
 let computerScore = 0;
 let isVideoPlaying = false;
 const container = document.querySelector(".container");
-const modal = document.querySelector("#myModal");
 
 const videoPaths = {
   rock: "vid/rock.mp4",
