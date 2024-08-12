@@ -13,26 +13,30 @@
     </header>
 
 
+<div class="flex-container">
 
-    <div class="container">
+    <div class="container ">
 
+      <div class="choices">
+
+      <div>
+        <p class="userDraws">USER: <span id="userScore">0</span></p>
+
+        <img id='userID'>
+      </div>
 
 
       <video id="videoPlayer" autoplay></video>
 
-      <div class="choices">
-
           <div>
-            <img id='userID'>
-          <p class="userDraws">USER: <span id="userScore">0</span></p>
-          </div>
-
-          <div>
-            <img id="cpuID">
             <p class="cpuDraws">WATAME:  <span id="cpuScore">0</span></p>
+
+            <img id="cpuID">
           </div>
       </div>
     
+    </div>
+
 
     <ul id="playerOption">
       <button id="rock"><img src="https://falmesino.github.io/playground/tsunomakijanken/assets/img/hand-rock.png" id="rock" width="150px" height="150px"></button>
@@ -43,9 +47,12 @@
 
    
 
-    </div>
 
     <p class="sample"></p>
+
+
+    <button id="reset">RESET</button>
+</div>
 
 
     <script src="index.js"></script>
