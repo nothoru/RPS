@@ -1,7 +1,7 @@
 const rps = ["rock", "paper", "scissor"];
 const userScore = document.querySelector("#userScore");
 const cpuScore = document.querySelector("#cpuScore");
-let para = document.createElement("p");
+let para = document.createElement("h2");
 const cpuDrew = document.querySelector(".cpuDraws");
 const userDraws = document.querySelector(".userDraws");
 const userId = document.querySelector("#userID");
@@ -10,6 +10,8 @@ let playerScore = 0;
 let computerScore = 0;
 let isVideoPlaying = false;
 const container = document.querySelector(".container");
+const modal = document.querySelector(".modal");
+const resetBtn = document.querySelector("#reset");
 
 const videoPaths = {
   rock: "vid/rock.mp4",
@@ -28,12 +30,13 @@ function getComputerChoice() {
 }
 
 function checkScore(player, computer) {
-  if (player == 1) {
+  if (player == 3) {
     document.querySelector(".sample").textContent = "You win!";
-    para.textContent = "YOU WON!";
-  } else if (computer == 1) {
+  } else if (computer == 3) {
     document.querySelector(".sample").textContent = "You lose!";
   }
+
+  modal.style.visibility = "visible";
 
   document.querySelector("#reset").style.visibility = "visible";
 }
@@ -54,8 +57,8 @@ function playRound(humanChoice, computerChoice) {
 
   videoPlayer.src = videoPaths[computerChoice];
   videoPlayer.style.display = "block";
-  cpuId.src = "images/random.png";
 
+  cpuId.src = "images/smug.png";
   userId.src = imagePaths[humanChoice];
 
   if (
@@ -63,7 +66,7 @@ function playRound(humanChoice, computerChoice) {
     (humanChoice == "rock" && computerChoice == "scissor") ||
     (humanChoice == "scissor" && computerChoice == "paper")
   ) {
-    para.textContent = "You won! " + humanChoice + " beats" + computerChoice;
+    para.textContent = "You won! " + humanChoice + " beats " + computerChoice;
     playerScore += 1;
   } else if (humanChoice == computerChoice) {
     para.textContent = `Its a tie`;
@@ -85,7 +88,7 @@ function playRound(humanChoice, computerChoice) {
       cpuScore.textContent = computerScore;
       userScore.textContent = playerScore;
 
-      if (playerScore == 1 || computerScore == 1)
+      if (playerScore == 3 || computerScore == 3)
         checkScore(playerScore, computerScore);
     }
   });
@@ -116,4 +119,11 @@ playerOption.addEventListener("click", (event) => {
   container.removeChild(para);
 });
 
-document.querySelector("#reset").addEventListener("click", resetRound);
+resetBtn.addEventListener("click", () => {
+  modal.style.visibility = "hidden";
+  resetBtn.style.visibility = "hidden";
+  resetRound();
+  para.textContent = "";
+  userId.src = "images/watamate.png";
+  videoPlayer.src = "";
+});
