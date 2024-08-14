@@ -1,13 +1,11 @@
 const rps = ["rock", "paper", "scissor"];
-const userScore = document.querySelector("#userScore");
+const playerScore = document.querySelector("#playerScore");
 const cpuScore = document.querySelector("#cpuScore");
-let para = document.createElement("h2");
-const cpuDrew = document.querySelector(".cpuDraws");
-const userDraws = document.querySelector(".userDraws");
-const userId = document.querySelector("#userID");
-const cpuId = document.querySelector("#cpuID");
-let playerScore = 0;
-let computerScore = 0;
+let resultText = document.createElement("h2");
+const userImg = document.querySelector("#userImg");
+const cpuImg = document.querySelector("#cpuImg");
+let playerPoints = 0;
+let cpuPoints = 0;
 let isVideoPlaying = false;
 const container = document.querySelector(".container");
 const modal = document.querySelector(".modal");
@@ -30,9 +28,9 @@ function getComputerChoice() {
 }
 
 function checkScore(player, computer) {
-  if (player == 3) {
+  if (player == 1) {
     document.querySelector(".sample").textContent = "You win!";
-  } else if (computer == 3) {
+  } else if (computer == 1) {
     document.querySelector(".sample").textContent = "You lose!";
   }
 
@@ -42,54 +40,52 @@ function checkScore(player, computer) {
 }
 
 function resetRound() {
-  playerScore = 0;
-  computerScore = 0;
-  cpuScore.textContent = computerScore;
-  userScore.textContent = playerScore;
-
-  document.querySelector(".sample").textContent = "";
+  playerPoints = 0;
+  cpuPoints = 0;
+  cpuScore.textContent = cpuPoints;
+  playerScore.textContent = playerPoints;
 }
 
 function playRound(humanChoice, computerChoice) {
   const videoPlayer = document.querySelector("#videoPlayer");
 
-  computerChoice = "rock"; //debugging purpose
-
   videoPlayer.src = videoPaths[computerChoice];
   videoPlayer.style.display = "block";
 
-  cpuId.src = "images/smug.png";
-  userId.src = imagePaths[humanChoice];
+  cpuImg.src = "images/smug.png";
+  userImg.src = imagePaths[humanChoice];
 
   if (
     (humanChoice == "paper" && computerChoice == "rock") ||
     (humanChoice == "rock" && computerChoice == "scissor") ||
     (humanChoice == "scissor" && computerChoice == "paper")
   ) {
-    para.textContent = "You won! " + humanChoice + " beats " + computerChoice;
-    playerScore += 1;
+    resultText.textContent =
+      "You won! " + humanChoice + " beats " + computerChoice;
+    playerPoints += 1;
   } else if (humanChoice == computerChoice) {
-    para.textContent = `Its a tie`;
+    resultText.textContent = `Its a tie`;
   } else {
-    para.textContent = "You lose! " + computerChoice + " beats " + humanChoice;
-    computerScore += 1;
+    resultText.textContent =
+      "You lose! " + computerChoice + " beats " + humanChoice;
+    cpuPoints += 1;
   }
 
   videoPlayer.addEventListener("timeupdate", () => {
     if (videoPlayer.currentTime >= 9 && videoPlayer.currentTime < 9.5) {
-      cpuId.src = imagePaths[computerChoice];
+      cpuImg.src = imagePaths[computerChoice];
 
-      container.insertBefore(para, container.firstChild);
+      container.insertBefore(resultText, container.firstChild);
 
       videoPlayer.removeEventListener("timeupdate", arguments.callee);
 
       isVideoPlaying = false;
 
-      cpuScore.textContent = computerScore;
-      userScore.textContent = playerScore;
+      cpuScore.textContent = cpuPoints;
+      playerScore.textContent = playerPoints;
 
-      if (playerScore == 3 || computerScore == 3)
-        checkScore(playerScore, computerScore);
+      if (playerPoints == 1 || cpuPoints == 1)
+        checkScore(playerPoints, cpuPoints);
     }
   });
 }
@@ -116,14 +112,15 @@ playerOption.addEventListener("click", (event) => {
 
   playRound(user, getComputerChoice());
 
-  container.removeChild(para);
+  container.removeChild(resultText);
 });
 
 resetBtn.addEventListener("click", () => {
   modal.style.visibility = "hidden";
   resetBtn.style.visibility = "hidden";
   resetRound();
-  para.textContent = "";
-  userId.src = "images/watamate.png";
+  resultText.textContent = "";
+  cpuImg.src = "images/smug.png";
+  userImg.src = "images/watamate.png";
   videoPlayer.src = "";
 });
