@@ -1,6 +1,6 @@
 # 角巻じゃんけん
 
-This is a fanmade game of "Tsunomaki Janken" built with JS.
+This is a fanmade game of "Tsunomaki Janken" built with JS. this is not optimize for mobile
 
 <img src="https://github.com/nothoru/Tsunomaki-Janken/blob/main/images/rps.png" width='1000' height='500'>
 
